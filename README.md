@@ -15,4 +15,6 @@ User authentication: Username
 Username: <VPN_USER>
 Password: <VPN_PASS>
 
+PS: make sure ports UDP 500, UDP 4500 are opened.
+
 Connect, enjoy.

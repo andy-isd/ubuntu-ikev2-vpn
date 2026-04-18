@@ -180,6 +180,8 @@ table inet filter {
     # Docker bridges
     iifname "docker0" accept
     iifname "br-*" accept
+    oifname "docker0" accept
+    oifname "br-*" accept
   }
 
 }

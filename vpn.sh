@@ -144,7 +144,7 @@ sudo chmod 600 /etc/ipsec.secrets
 
 # Firewall/NAT (nftables)
 sudo tee /etc/nftables.conf >/dev/null <<EOF
-flush ruleset
+#flush ruleset
 
 table inet filter {
   chain input {
@@ -154,8 +154,10 @@ table inet filter {
     iif "lo" accept
     ct state established,related accept
 
-    # SSH
+    # SSH, HTTP, HTTPS
     tcp dport 22 accept
+    tcp dport 80 accept
+    tcp dport 443 accept
 
     # IKEv2
     udp dport 500 accept
@@ -172,9 +174,14 @@ table inet filter {
 
     ct state established,related accept
 
-    # allow VPN clients to forward traffic
+    # VPN clients
     ip saddr ${POOL_CIDR} accept
+
+    # Docker bridges
+    iifname "docker0" accept
+    iifname "br-*" accept
   }
+
 }
 
 table ip nat {
